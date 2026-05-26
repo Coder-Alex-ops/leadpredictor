@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadPredictor — Lead Generation Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 4h18l-7 8v6l-4 2v-8z"/>
+          </svg>
+        </span>
+        <span class="logo-text"><b>Lead</b>Predictor</span>
+      </div>
+
+      <div class="field">
+        <label for="language" data-i18n="language">Language</label>
+        <div class="select-wrap">
+          <select id="language">
+            <option value="en">🇬🇧 English</option>
+            <option value="bg">🇧🇬 Български</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="currency" data-i18n="currency">Currency</label>
+        <div class="select-wrap">
+          <select id="currency">
+            <option value="USD">$ US Dollar</option>
+            <option value="EUR">€ Euro</option>
+            <option value="BGN">лв. Bulgarian Lev</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="startDate" data-i18n="start">Campaign Start</label>
+        <input type="date" id="startDate" value="2026-05-08" />
+      </div>
+
+      <div class="field">
+        <label for="endDate" data-i18n="end">Campaign End</label>
+        <input type="date" id="endDate" value="2026-11-04" />
+      </div>
+
+      <div class="field">
+        <label for="revenue" data-i18n="revenue">Total Revenue</label>
+        <div class="input-prefix">
+          <span class="prefix" data-currency-symbol>$</span>
+          <input type="number" id="revenue" min="0" step="100" value="10000" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="aov" data-i18n="aov">Avg. Order Value</label>
+        <div class="input-prefix">
+          <span class="prefix" data-currency-symbol>$</span>
+          <input type="number" id="aov" min="1" step="50" value="1000" />
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <section class="panel chart-panel">
+        <div class="chart-box">
+          <canvas id="funnelChart"></canvas>
+        </div>
+
+        <div class="cards">
+          <div class="card card-prospects">
+            <div class="card-head">
+              <span class="card-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h6l2 2h10v10H3z"/></svg>
+                <span data-i18n="prospects">Prospects</span>
+              </span>
+              <span class="card-pct" id="prospectsPct">100%</span>
+            </div>
+            <div class="card-value" id="prospectsValue">125</div>
+            <div class="bar"><span id="prospectsBar" style="width:100%"></span></div>
+          </div>
+
+          <div class="card card-leads">
+            <div class="card-head">
+              <span class="card-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                <span data-i18n="leads">Leads</span>
+              </span>
+              <span class="card-pct" id="leadsPct">20%</span>
+            </div>
+            <div class="card-value" id="leadsValue">25</div>
+            <div class="bar"><span id="leadsBar" style="width:20%"></span></div>
+          </div>
+
+          <div class="card card-customers">
+            <div class="card-head">
+              <span class="card-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10M7 21h10M7 3c0 5 5 6 5 9 0-3 5-4 5-9M7 21c0-5 5-6 5-9 0 3 5 4 5 9"/></svg>
+                <span data-i18n="customers">Customers</span>
+              </span>
+              <span class="card-pct" id="customersPct">8%</span>
+            </div>
+            <div class="card-value" id="customersValue">10</div>
+            <div class="bar"><span id="customersBar" style="width:8%"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel sliders-panel">
+        <div class="slider-field">
+          <label for="leadRate" data-i18n="leadRate">Lead Response Rate</label>
+          <input type="range" id="leadRate" min="1" max="100" step="0.5" value="40" />
+          <output id="leadRateOut" class="slider-out">40.00%</output>
+        </div>
+
+        <div class="slider-field">
+          <label for="prospectRate" data-i18n="prospectRate">Prospect Response Rate</label>
+          <input type="range" id="prospectRate" min="1" max="100" step="0.5" value="20" />
+          <output id="prospectRateOut" class="slider-out">20.00%</output>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
