@@ -1,0 +1,4 @@
+# Статичен сайт — Netlify сервира директно от root, без build команда.
+[build]
+  publish = "."
+  command = ""
